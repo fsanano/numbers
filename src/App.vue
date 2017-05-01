@@ -1,9 +1,6 @@
 <template>
 	<div id="app">
-		<header>
-			<a class = "logo">Numb<sup>e</sup>r theory</a>
-		</header>
-		<!-- <img src="./assets/logo.png"> -->
+		<headercomponent></headercomponent>
 		<router-view></router-view>
 	</div>
 </template>
@@ -14,5 +11,14 @@ export default {
 }
 </script>
 
-<style>
+<style lang="stylus">
+	body
+		font-family: 'Special Elite', cursive;
+		font-size: 12px;
+		background: url("assets/ricepaper2.png") 0 0 repeat;
+		position: relative;
+
+	*:focus
+		outline: none;
+
 </style>
