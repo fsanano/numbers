@@ -39,6 +39,7 @@
 					this.number = null
 				}
 				if (this.number && checkIfRepeatNum.length === 0) {
+					console.time('calculating exec time')
 					let curNum = this.number * 1
 					let num = {}
 
@@ -69,6 +70,7 @@
 					this.numbers.push(num)
 
 					this.number = null
+					console.timeEnd('calculating exec time')
 				}
 			},
 

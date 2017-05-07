@@ -16,6 +16,7 @@ export default {
 		height 100%
 	body
 		height 100%
+		margin 0
 		position: relative;
 		font-family: 'Special Elite', cursive;
 		font-size: 12px;
