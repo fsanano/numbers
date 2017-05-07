@@ -12,11 +12,14 @@ export default {
 </script>
 
 <style lang="stylus">
+	html
+		height 100%
 	body
+		height 100%
+		position: relative;
 		font-family: 'Special Elite', cursive;
 		font-size: 12px;
 		background: url("assets/ricepaper2.png") 0 0 repeat;
-		position: relative;
 
 	*:focus
 		outline: none;
