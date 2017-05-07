@@ -5,11 +5,10 @@
 
 		.res
 			ul(v-for="num in numbers" v-bind:class=" '_' + num.title.value ").num 
-				li( v-for="(value, key) in num" v-bind:class="key" )
-					span(v-show="!!value")
-						span.num__symbol(v-html="value.symbol" v-if="")
-							br
-						span.num__value(v-html="value.value")
+				li( v-for="(value, key) in num" v-bind:class="key" v-if="value.value")
+					span.num__symbol(v-html="value.symbol")
+						br
+					span.num__value(v-html="value.value")
 
 </template>
 
@@ -261,7 +260,7 @@
 					}
 				} else {
 					return {
-						value: '',
+						value: null,
 						symbol: ''
 					}
 				}
