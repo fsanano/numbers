@@ -19,7 +19,8 @@
 			return {
 				numbers: [],
 				number: '',
-				primeList: []
+				primeList: [],
+				fibList: [0, 1]
 			}
 		},
 		computed: {
@@ -38,6 +39,7 @@
 					this.number = null
 				}
 				if (this.number && checkIfRepeatNum.length === 0) {
+					let curNum = this.number * 1
 					let num = {}
 
 					num['title'] = {
@@ -46,21 +48,23 @@
 					}
 
 					num['base2'] = {
-						'value': this.base(this.number * 1, 2),
+						'value': this.base(curNum, 2),
 						'symbol': 'x<sub>2</sub>'
 					}
 					num['base8'] = {
-						'value': this.base(this.number * 1, 8),
+						'value': this.base(curNum, 8),
 						'symbol': 'x<sub>8</sub>'
 					}
 					num['base32'] = {
-						'value': this.base(this.number * 1, 32),
+						'value': this.base(curNum, 32),
 						'symbol': 'x<sub>32</sub>'
 					}
 
-					num['oddEven'] = this.oddEven(this.number)
+					num['oddEven'] = this.oddEven(curNum)
 
-					num['factorization'] = this.factorization(this.number)
+					num['factorization'] = this.factorization(curNum)
+
+					num['detectFib'] = this.detectFib(curNum)
 
 					this.numbers.push(num)
 
@@ -69,13 +73,13 @@
 			},
 
 			base (num, base) {
-				let n = num * 1
+				let n = num
 				let numWithBase = n.toString(base)
 				return numWithBase
 			},
 
 			oddEven (num) {
-				if (num * 1 % 2 === 0) {
+				if (num % 2 === 0) {
 					return {
 						'value': '2 · ' + num / 2,
 						'symbol': '◑'
@@ -118,7 +122,7 @@
 				v1 = n
 
 				v2 = v1
-				if (v1 * 1 === 1) {
+				if (v1 === 1) {
 					// console.log('Единица не является простым числом и не имеет делителей')
 					return {
 						value: '1<sup> </sup>',
@@ -173,7 +177,7 @@
 					console.log('Введите число.')
 					return
 				}
-				if (v5 === v2) {
+				if (v5 * 1 === v2) {
 					this.getPrimeList(n)
 					v5 = {
 						value: this.primeList.length + '<sup>th</sup> ',
@@ -231,7 +235,49 @@
 
 			showPopup (msg) {
 				alert(msg)
+			},
+
+			detectFib (n) {
+				this.fibList = [0, 1]
+
+				this.fib(0, 1, n + 1)
+
+				let l = this.fibList.length
+				let fibNumPositions = []
+				let fibNumPositionsString = ''
+
+				for (let i = 0; i < l; i++) {
+					if (this.fibList[i] === n) {
+						fibNumPositions.push(i + 1)
+						fibNumPositionsString += fibNumPositionsString === '' ? (i + 1) : ', ' + (i + 1)
+						// ࿓ ࿔ ට ១ ᪤ ꩜ ৩
+					}
+				}
+				if (fibNumPositions.length) {
+					return {
+						value: fibNumPositionsString + '<sup>th</sup>',
+						symbol: '࿓'
+					}
+				} else {
+					return {
+						value: '',
+						symbol: ''
+					}
+				}
+			},
+
+			fib (a, b, n) {
+				let c = a + b
+
+				if (c < n) {
+					a = b
+					b = c
+					this.fibList.push(c)
+					return this.fib(a, b, n)
+				}
+				// console.log(this.fibList)
 			}
+
 		}
 	}
 
