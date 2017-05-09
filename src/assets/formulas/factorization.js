@@ -64,9 +64,9 @@ export default function (n, primeNumbersList) {
 		return
 	}
 	if (v5 * 1 === v2) {
-		getPrimeNumbersList(n, primeNumbersList)
+		var primeNumberList = getPrimeNumbersList(n, primeNumbersList)
 		v5 = {
-			value: primeNumbersList.length + '<sup>th</sup> ',
+			value: primeNumberList.length + '<sup>th</sup> ',
 			symbol: '⁚'
 		}
 	} else {
