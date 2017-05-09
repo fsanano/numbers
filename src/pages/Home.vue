@@ -14,6 +14,8 @@
 
 <script>
 
+	import formula from '../assets/formulas'
+
 	export default{
 		data () {
 			return {
@@ -41,6 +43,7 @@
 				}
 				if (this.number && checkIfRepeatNum.length === 0) {
 					console.time('calculating exec time')
+
 					let curNum = this.number * 1
 					let num = {}
 
@@ -50,237 +53,34 @@
 					}
 
 					num['base2'] = {
-						'value': this.base(curNum, 2),
+						'value': formula.base(curNum, 2),
 						'symbol': 'x<sub>2</sub>'
 					}
+
 					num['base8'] = {
-						'value': this.base(curNum, 8),
+						'value': formula.base(curNum, 8),
 						'symbol': 'x<sub>8</sub>'
 					}
+
 					num['base32'] = {
-						'value': this.base(curNum, 32),
+						'value': formula.base(curNum, 32),
 						'symbol': 'x<sub>32</sub>'
 					}
 
-					num['oddEven'] = this.oddEven(curNum)
+					num['oddEven'] = formula.oddEven(curNum)
 
-					num['factorization'] = this.factorization(curNum)
+					num['factorization'] = formula.factorization(curNum, this.primeList)
 
-					num['detectFib'] = this.detectFib(curNum)
+					num['detectFib'] = formula.detectFibonacciNumber(curNum, this.fibList)
 
-					num['factorial'] = this.factorial(curNum)
+					num['factorial'] = this.factorial(curNum, this.factorialList)
 
 					this.numbers.push(num)
 
 					this.number = null
+
 					console.timeEnd('calculating exec time')
 				}
-			},
-
-			base (num, base) {
-				let n = num
-				let numWithBase = n.toString(base)
-				return numWithBase
-			},
-
-			oddEven (num) {
-				if (num % 2 === 0) {
-					return {
-						'value': '2 · ' + num / 2,
-						'symbol': '◑'
-					}
-				} else {
-					return {
-						'value': '2 · ' + Math.round(num / 2 - 1) + ' + 1',
-						'symbol': '◐'
-					}
-				}
-			},
-
-			getPrimeList (n) {
-				let S = []
-				this.primeList = []
-
-				S[1] = 0 // 1 - не простое число
-				for (let k = 2; k <= n; k++) {
-					S[k] = k
-				}
-
-				for (let m = 2; m * m <= n; m++) {
-					if (S[m] > 1) {
-						for (let l = m * m; l <= n; l += m) {
-							S[l] = 0
-						}
-					}
-				}
-				for (let i = 2; i <= n; i++) {
-					if (S[i] > 0) {
-						this.primeList.push(S[i])
-					}
-				}
-
-				return this.primeList
-			},
-
-			factorization (n) {
-				let v1, v2, v3, v4, v5, v6
-				v1 = n
-
-				v2 = v1
-				if (v1 === 1) {
-					// console.log('Единица не является простым числом и не имеет делителей')
-					return {
-						value: '1<sup> </sup>',
-						symbol: '·'
-					}
-				}
-
-				if (v2 < 2) {
-					// console.log('Введите натуральное число')
-					return {
-						value: '-',
-						symbol: '-'
-						// symbol: '∞'
-					}
-				}
-
-				v4 = v1 / 2
-				v5 = ''
-				v6 = 3
-
-				if (v4 === Math.round(v4)) {
-					v3 = this.power(v2, 2)
-					if (v3 === 1) {
-						v5 = v5 + '2'
-					} else {
-						v5 = v5 + '2<sup>' + v3 + '</sup>'
-					}
-					v1 = v1 / this.exponent(2, v3)
-				} else {
-					v4 = this.divider(v1, v6)
-					v3 = this.power(v1, v4)
-					v6 = v4
-					v1 = v1 / this.exponent(v4, v3)
-					if (v3 === 1) {
-						v5 = v5 + v4
-					} else {
-						v5 = v5 + v4 + '<sup>' + v3 + '</sup>'
-					}
-				}
-				while (v6 <= v1) {
-					v4 = this.divider(v1, v6)
-					v3 = this.power(v1, v4)
-					if (v3 === 1) {
-						v5 = v5 + ' · ' + v4
-					} else {
-						v5 = v5 + ' · ' + v4 + '<sup>' + v3 + '</sup>'
-					}
-					v6 = v4
-					v1 = v1 / this.exponent(v4, v3)
-				}
-				if (v5 === 'NaN<sup>0</sup>') {
-					console.log('Введите число.')
-					return
-				}
-				if (v5 * 1 === v2) {
-					this.getPrimeList(n)
-					v5 = {
-						value: this.primeList.length + '<sup>th</sup> ',
-						symbol: '⁚'
-					}
-				} else {
-					v5 = {
-						value: v5,
-						symbol: '⁞'
-					}
-					// ⁙
-				}
-				return v5
-			},
-
-			power (v7, v8) {
-				let v9 = 0
-				let v10 = 0
-				let v11 = 0
-				v11 = Math.round(v7 / v8)
-				for (var i = 1; i <= v11; i++) {
-					v10 = v7 / v8
-					if (v10 !== Math.round(v10)) {
-						return v9
-					}
-					v9 = v9 + 1
-					v7 = v10
-				}
-				return v9
-			},
-
-			exponent (v7, v9) {
-				let v12 = 1
-				for (var i = 0; i < v9; i++) {
-					v12 = v12 * v7
-				}
-				return v12
-			},
-
-			divider (v7, v13) {
-				let v14, v15, v16
-				v14 = v7
-				v16 = Math.round(v7 / v13)
-				while (v13 <= v16) {
-					v15 = v7 / v13
-					v16 = Math.round(v15)
-					if (v15 === v16) {
-						v14 = v13
-						return v14
-					}
-					v13 = v13 + 2
-				}
-				return v14
-			},
-
-			showPopup (msg) {
-				alert(msg)
-			},
-
-			detectFib (n) {
-				this.fibList = [0, 1]
-
-				this.fib(0, 1, n + 1)
-
-				let l = this.fibList.length
-				let fibNumPositions = []
-				let fibNumPositionsString = ''
-
-				for (let i = 0; i < l; i++) {
-					if (this.fibList[i] === n) {
-						fibNumPositions.push(i + 1)
-						fibNumPositionsString += fibNumPositionsString === '' ? (i + 1) : ', ' + (i + 1)
-						// ࿓ ࿔ ට ១ ᪤ ꩜ ৩
-					}
-				}
-				if (fibNumPositions.length) {
-					return {
-						value: fibNumPositionsString + '<sup>th</sup>',
-						symbol: '࿓'
-					}
-				} else {
-					return {
-						value: null,
-						symbol: ''
-					}
-				}
-			},
-
-			fib (a, b, n) {
-				let c = a + b
-
-				if (c < n) {
-					a = b
-					b = c
-					this.fibList.push(c)
-					return this.fib(a, b, n)
-				}
-				// console.log(this.fibList)
 			},
 
 			factorial (n) {
@@ -309,6 +109,10 @@
 					value: '',
 					symbol: ''
 				}
+			},
+
+			showPopup (msg) {
+				alert(msg)
 			}
 		}
 	}
