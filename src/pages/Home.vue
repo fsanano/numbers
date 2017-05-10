@@ -19,7 +19,6 @@
 	export default{
 		data () {
 			return {
-				numbers: [],
 				repeat: null,
 				number: '',
 				primeList: [],
@@ -28,7 +27,19 @@
 			}
 		},
 		computed: {
-
+			numbers () {
+				let nums = JSON.parse(localStorage.getItem('numbers'))
+				console.log(nums)
+				if (nums !== null) {
+					if (nums.length) {
+						return nums
+					} else {
+						return []
+					}
+				} else {
+					return []
+				}
+			}
 		},
 
 		methods: {
@@ -77,6 +88,8 @@
 					num['factorial'] = this.factorial(curNum, this.factorialList)
 
 					this.numbers.push(num)
+
+					localStorage.setItem('numbers', JSON.stringify(this.numbers))
 
 					this.number = null
 
