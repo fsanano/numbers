@@ -4,8 +4,9 @@
 			input(type="number" v-model="number" maxlength = "7" autocomplete="off" v-on:keyup.enter="calculate()").inp
 
 		.res
-			ul(v-for="num in numbers" v-bind:class=" ['_' + num.title.value , {'bounce': num.title.value == repeat}] " ).num
-				li( v-for="(value, key) in num" v-bind:class="key" v-if="value.value")
+			div(v-for="(num, index) in numbers" v-bind:class=" ['_' + num.title.value , {'bounce': num.title.value == repeat}] " ).num
+				span.num__delete(@click="numberDelete(index)") &times;
+				div( v-for="(value, key) in num" v-bind:class="key" v-if="value.value")
 					span.num__symbol(v-html="value.symbol")
 						br
 					span.num__value(v-html="value.value")
@@ -19,6 +20,7 @@
 	export default{
 		data () {
 			return {
+				numbers: [],
 				repeat: null,
 				number: '',
 				primeList: [],
@@ -26,22 +28,15 @@
 				factorialList: []
 			}
 		},
-		computed: {
-			numbers () {
-				let nums = JSON.parse(localStorage.getItem('numbers'))
-				console.log(nums)
-				if (nums !== null) {
-					if (nums.length) {
-						return nums
-					} else {
-						return []
-					}
-				} else {
-					return []
+		mounted () {
+			let nums = JSON.parse(localStorage.getItem('numbers'))
+			console.log(nums)
+			if (nums !== null) {
+				if (nums.length) {
+					this.numbers = nums
 				}
 			}
 		},
-
 		methods: {
 
 			calculate () {
@@ -85,7 +80,7 @@
 
 					num['detectFib'] = formula.detectFibonacciNumber(curNum, this.fibList)
 
-					num['factorial'] = this.factorial(curNum, this.factorialList)
+					num['factorial'] = formula.factorial(curNum, this.factorialList)
 
 					this.numbers.push(num)
 
@@ -96,39 +91,16 @@
 					console.timeEnd('calculating exec time')
 				} else {
 					this.repeat = this.number
+					this.number = null
 					setTimeout(() => {
 						this.repeat = null
 					}, 1000)
-					console.log(this.number)
 				}
 			},
 
-			factorial (n) {
-				let a = 0
-				let fac = 1
-				this.factorialList = []
-
-				while (fac < (n + 1)) {
-					a = a + 1
-					fac *= a
-					this.factorialList.push(fac)
-				}
-
-				let l = this.factorialList.length
-
-				for (let i = 0; i <= l; i++) {
-					if (this.factorialList[i] === n) {
-						// addParam(i+1 + '!', 'factorial')
-						return {
-							value: i + 1,
-							symbol: '!'
-						}
-					}
-				}
-				return {
-					value: '',
-					symbol: ''
-				}
+			numberDelete (n) {
+				this.numbers.splice(n, 1)
+				localStorage.setItem('numbers', JSON.stringify(this.numbers))
 			},
 
 			showPopup (msg) {
@@ -153,6 +125,7 @@
 
 	.num
 		// width 18%
+		position relative
 		box-sizing border-box
 		display inline-block
 		padding 10px
@@ -160,12 +133,15 @@
 		border 1px dashed #ccc
 		background: rgba(132, 123, 116, 0.15)
 		border-radius 5px 8px 13px 21px
+		&:hover
+			.num__delete
+				opacity 1
 		&__symbol
 			display inline-block
 			width 28px
 			padding-right 8px
 			text-align center
-		li
+		&>div
 			position relative
 			display block
 			padding 5px 10px
@@ -175,9 +151,19 @@
 				text-align center
 				font-size 2rem
 				margin 0 0px 5px 0
+				padding 5px 15px
 				display inline-block
 				.num__symbol
 					display none
+		&__delete
+			position absolute
+			font-size 2rem
+			right 10px
+			top 5px
+			cursor pointer
+			opacity 0
+			transition .3s
+
 		&.repeat
 			color red
 

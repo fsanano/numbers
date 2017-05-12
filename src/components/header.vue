@@ -1,7 +1,10 @@
 <template>
 	<header>
 		<ul class="header__menu">
-			<li></li>
+			<li>Home</li>
+			<li>Articles</li>
+			<li>About</li>
+			<li>Contacts</li>
 		</ul>
 		<a class = "logo">Numb<sup>e</sup>r the<sub>o</sub>R(y)</a>
 	</header>
@@ -37,4 +40,10 @@
 		text-align: right;
 		padding: 20px;
 		margin:  0;
+
+	.header
+		&__menu
+			position absolute
+			left 0 
+			top 0
 </style>
