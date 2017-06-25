@@ -1,10 +1,10 @@
 <template>
 	<header>
 		<ul class="header__menu">
-			<li>Home</li>
+			<!-- <li>Home</li>
 			<li>Articles</li>
 			<li>About</li>
-			<li>Contacts</li>
+			<li>Contacts</li> -->
 		</ul>
 		<a class = "logo">Numb<sup>e</sup>r the<sub>o</sub>R(y)</a>
 	</header>
