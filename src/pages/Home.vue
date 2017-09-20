@@ -2,6 +2,14 @@
 	div
 		.number_field(v-bind:class="{top:numbers.length}")
 			input(type="number" v-model="number" maxlength = "7" autocomplete="off" v-on:keyup.enter="calculate()").inp
+			.settings__container(v-bind:style="{backgroundColor: showSettings? 'white': 'transparent'}")
+				span.settings__button(@click="toggleSettings()") {}
+				.settings(v-if="showSettings")
+					label
+						input(type="checkbox" v-model="showFib") 
+						span(v-if="showFib") Hide 
+						span(v-else) Show 
+						| Fibanacci numbers
 
 		.res
 			div(v-for="(num, index) in numbers" v-bind:class=" ['_' + num.title.value , {'bounce': num.title.value == repeat}] " ).num
@@ -25,9 +33,13 @@
 				number: '',
 				primeList: [],
 				fibList: [0, 1],
-				factorialList: []
+				factorialList: [],
+
+				showSettings: false,
+				showFib: true
 			}
 		},
+
 		mounted () {
 			let nums = JSON.parse(localStorage.getItem('numbers'))
 			console.log(nums)
@@ -37,6 +49,7 @@
 				}
 			}
 		},
+
 		methods: {
 
 			calculate () {
@@ -78,7 +91,9 @@
 
 					num['factorization'] = formula.factorization(curNum, this.primeList)
 
-					num['detectFib'] = formula.detectFibonacciNumber(curNum, this.fibList)
+					if (this.showFib) {
+						num['detectFib'] = formula.detectFibonacciNumber(curNum, this.fibList)
+					}
 
 					num['factorial'] = formula.factorial(curNum, this.factorialList)
 
@@ -105,6 +120,10 @@
 
 			showPopup (msg) {
 				alert(msg)
+			},
+
+			toggleSettings () {
+				this.showSettings = !this.showSettings
 			}
 		}
 	}
@@ -240,6 +259,19 @@
 		-webkit-animation-fill-mode: both;
 		animation-fill-mode: both;
 	}
+
+	.settings
+		padding 10px
+		background-color white
+		&__container
+			position absolute
+			left 0
+			top 100%
+			width 100%
+
+		&__button
+			font-size 1.5rem
+			cursor pointer
 
 
 </style>
