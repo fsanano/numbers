@@ -1,3 +1,3 @@
 # numbers
 
-> All about [Numbers](http://fsanano.github.io/numbers/dist/#/)
+> All about [Numbers](http://fsanano.github.io/numbers/dist/)
