@@ -10,7 +10,8 @@ export default function (n, fibonacciNumbersList = [0, 1]) {
   for (let i = 0; i < l; i + 1) {
     if (fibonacciNumbersList[i] === n) {
       fibNumPositions.push(i + 1);
-      fibNumPositionsString += fibNumPositionsString === '' ? (i + 1) : `, ${(i + 1)}`;
+      const sum = i + 1;
+      fibNumPositionsString += fibNumPositionsString === '' ? (i + 1) : `, ${sum}`;
       // ࿓ ࿔ ට ១ ᪤ ꩜ ৩
     }
   }

@@ -1,21 +1,22 @@
 <template lang="pug">
   div
-    .number_field(:class="{top:numbers.length}")
-      input.inp(
-        type="number"
-        v-model="number"
-        maxlength = "7"
-        autocomplete="off"
-        :keyup.enter="calculate()"
-      )
-      .settings__container(:style="{backgroundColor: showSettings? 'white': 'transparent'}")
-        //- span.settings__button(@click="toggleSettings()") {}
-        //- .settings(v-if="showSettings")
-          label
-            input(type="checkbox" v-model="showFib")
-            span(v-if="showFib") Hide
-            span(v-else) Show
-            | Fibanacci numbers
+    NumberInput
+    //- .number_field(:class="{top:numbers.length}")
+    //-   input.inp(
+    //-     type="number"
+    //-     v-model="number"
+    //-     maxlength = "7"
+    //-     autocomplete="off"
+    //-     :keyup.enter="calculate()"
+    //-   )
+    //-   .settings__container(:style="{backgroundColor: showSettings? 'white': 'transparent'}")
+    //-     span.settings__button(@click="toggleSettings()") {}
+    //-     .settings(v-if="showSettings")
+    //-       label
+    //-         input(type="checkbox" v-model="showFib")
+    //-         span(v-if="showFib") Hide
+    //-         span(v-else) Show
+    //-         | Fibanacci numbers
 
     .res
       div(
@@ -39,8 +40,12 @@
 <script>
 
 import formula from '@/formulas';
+import NumberInput from '@/components/NumberInput.vue';
 
 export default {
+  components: {
+    NumberInput,
+  },
   data() {
     return {
       numbers: [],
@@ -105,19 +110,19 @@ export default {
 
         num.oddEven = formula.oddEven(curNum);
 
-        num.factorization = formula.factorization(curNum, this.primeList);
+        // num.factorization = formula.factorization(curNum, this.primeList);
 
-        if (this.showFib) {
-          num.detectFib = formula.detectFibonacciNumber(curNum, this.fibList);
-        }
+        // if (this.showFib) {
+        //   num.detectFib = formula.detectFibonacciNumber(curNum, this.fibList);
+        // }
 
-        num.factorial = formula.factorial(curNum, this.factorialList);
+        // num.factorial = formula.factorial(curNum, this.factorialList);
 
-        this.numbers.push(num);
+        // this.numbers.push(num);
 
-        localStorage.setItem('numbers', JSON.stringify(this.numbers));
+        // localStorage.setItem('numbers', JSON.stringify(this.numbers));
 
-        this.number = null;
+        // this.number = null;
 
         console.timeEnd('calculating exec time');
       } else {
@@ -199,37 +204,6 @@ export default {
 
   &.repeat
     color red
-
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button
-  -webkit-appearance none
-  margin 0
-
-
-.number_field
-  position absolute
-  width 20%
-  height 60px
-  top 40%
-  right 0
-  left 0
-  // bottom 0
-  margin auto
-  transition .3s
-  &.top
-    top 80px
-
-.inp
-  width 100%
-  padding 3px 10px
-  background transparent
-  border 0
-  border-bottom 1px solid #2d2d2d
-  font-size 4em
-  text-align center
-  box-sizing border-box
-  font-family 'Special Elite', cursive
-
 
 footer
   position fixed
