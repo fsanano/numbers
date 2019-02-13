@@ -1,69 +1,53 @@
 <template lang="pug">
-  form.number__field-contanier(
-    :class="{top: numbers.length}"
-    @submit.prevent="checkNumber"
+  input.number__field(
+    type="number"
+    maxlength = "7"
+    autocomplete="off"
+    :placeholder="placeholder"
+    :value="value"
+    @input="updateValue"
+    @focus="hidePlaceholder"
+    @blur="showPlaceholder"
   )
-
-    input.number__field(
-      type="number"
-      maxlength = "7"
-      autocomplete="off"
-      v-model="number"
-    )
-
-    .settings__container(:style="{backgroundColor: visibility? 'white': 'transparent'}")
-      span.settings__button(@click="settingsToggle('visibility')") {}
-
-      .settings(v-if="visibility")
-        label
-          input(
-            type="checkbox"
-            :value="fibonacci"
-            @click="settingsToggle('fibonacci')"
-          )
-          | Fibanacci numbers
-
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
-
+/**
+ * Input component for typing number
+ */
 export default {
   name: 'NumberInput',
+
   data() {
     return {
-      number: '',
+      placeholderTxt: 'Type number',
+      placeholder: 'Type number',
     };
   },
-  computed: {
-    ...mapState({
-      numbers: state => state.numbers,
-      visibility: state => state.settings.visibility,
-      fibonacci: state => state.settings.fibonacci,
-    }),
+
+  props: {
+    value: {
+      type: [Number, String],
+      required: true,
+      default: '',
+    },
   },
+
   methods: {
-    ...mapActions(['settingsToggle']),
-    checkNumber() {
-      console.info('check');
+    updateValue(e) {
+      this.$emit(e.target.value);
+    },
+    hidePlaceholder() {
+      this.placeholder = '';
+    },
+    showPlaceholder() {
+      this.placeholder = this.placeholderTxt;
     },
   },
 };
 </script>
 
 <style lang="stylus">
-
-.number__field-contanier
-  position absolute
-  width 20%
-  height 60px
-  top 40%
-  right 0
-  left 0
-  margin auto
-  transition .3s
-  &.top
-    top 80px
 
 .number__field
   width 100%
@@ -80,5 +64,4 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button
   -webkit-appearance none
   margin 0
-
 </style>

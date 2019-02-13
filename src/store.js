@@ -6,11 +6,11 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    numbers: [],
     settings: {
       visibility: false,
       fibonacci: true,
     },
-    numbers: [],
   },
   mutations: {
     SETTINGS_TOGGLE: (state, value) => {
@@ -20,6 +20,9 @@ export default new Vuex.Store({
   actions: {
     settingsToggle({ commit }, value) {
       commit('SETTINGS_TOGGLE', value);
+    },
+    addNumber({ state }, value) {
+      state.numbers.push(value);
     },
   },
   plugins: [createPersistedState()],

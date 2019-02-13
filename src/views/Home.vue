@@ -1,44 +1,34 @@
 <template lang="pug">
   div
-    NumberInput
-    //- .number_field(:class="{top:numbers.length}")
-    //-   input.inp(
-    //-     type="number"
-    //-     v-model="number"
-    //-     maxlength = "7"
-    //-     autocomplete="off"
-    //-     :keyup.enter="calculate()"
-    //-   )
-    //-   .settings__container(:style="{backgroundColor: showSettings? 'white': 'transparent'}")
-    //-     span.settings__button(@click="toggleSettings()") {}
-    //-     .settings(v-if="showSettings")
-    //-       label
-    //-         input(type="checkbox" v-model="showFib")
-    //-         span(v-if="showFib") Hide
-    //-         span(v-else) Show
-    //-         | Fibanacci numbers
+    form.number__field-contanier(
+      @submit.prevent="checkNumber"
+      :class="{top: numbers.length}"
+    )
+      NumberInput(v-model="number")
+      //- NumberSettings
 
-    .res
-      div(
-        v-for="(num, index) in numbers"
-        :key="num"
-        :class=" ['_' + num.title.value , {'bounce': num.title.value == repeat}] "
-      ).num
-        span.num__delete(@click="numberDelete(index)") &times;
-        div(
-          v-if="value.value"
-          v-for="(value, key) in num"
-          :key="value"
-          :class="key"
-        )
-          span.num__symbol(v-html="value.symbol")
-            br
-          span.num__value(v-html="value.value")
+    //- NumberList
+    //- .res
+    //-   div(
+    //-     v-for="(num, index) in numbers"
+    //-     :key="num"
+    //-     :class=" ['_' + num.title.value , {'bounce': num.title.value == repeat}] "
+    //-   ).num
+    //-     span.num__delete(@click="numberDelete(index)") &times;
+    //-     div(
+    //-       v-if="value.value"
+    //-       v-for="(value, key) in num"
+    //-       :key="value"
+    //-       :class="key"
+    //-     )
+    //-       span.num__symbol(v-html="value.symbol")
+    //-         br
+    //-       span.num__value(v-html="value.value")
 
 </template>
 
 <script>
-
+import { mapState } from 'vuex';
 import formula from '@/formulas';
 import NumberInput from '@/components/NumberInput.vue';
 
@@ -48,7 +38,6 @@ export default {
   },
   data() {
     return {
-      numbers: [],
       repeat: null,
       number: '',
       primeList: [],
@@ -59,6 +48,12 @@ export default {
       showSettings: false,
       showFib: true,
     };
+  },
+
+  computed: {
+    ...mapState({
+      numbers: state => state.numbers,
+    }),
   },
 
   mounted() {
@@ -152,6 +147,18 @@ export default {
 </script>
 
 <style lang="stylus">
+.number__field-contanier
+  position absolute
+  width 320px
+  height 60px
+  top 40%
+  right 0
+  left 0
+  margin auto
+  transition .3s
+  &.top
+    top 80px
+
 .res
   margin 7% 0 0 0
   display flex

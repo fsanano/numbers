@@ -1,8 +1,7 @@
 <template lang="pug">
   div(id="app")
-    //- router-view(:key="$route.fullPath")
     TheHeader
-    router-view
+    router-view(:key="$route.fullPath")
 </template>
 
 <script>
