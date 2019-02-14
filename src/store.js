@@ -13,16 +13,16 @@ export default new Vuex.Store({
     },
   },
   mutations: {
-    SETTINGS_TOGGLE: (state, value) => {
-      Vue.set(state.settings, value, !state.settings[value]);
+    SETTINGS_TOGGLE: (state, prop) => {
+      Vue.set(state.settings, prop, !state.settings[prop]);
     },
   },
   actions: {
-    settingsToggle({ commit }, value) {
-      commit('SETTINGS_TOGGLE', value);
+    settingsToggle({ commit }, prop) {
+      commit('SETTINGS_TOGGLE', prop);
     },
-    addNumber({ state }, value) {
-      state.numbers.push(value);
+    addNumber({ state }, num) {
+      state.numbers.push(num);
     },
   },
   plugins: [createPersistedState()],
